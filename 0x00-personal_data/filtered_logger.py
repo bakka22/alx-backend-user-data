@@ -9,5 +9,5 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     """ replace occurrences of certain field values """
     pattren = ""
     for field in fields:
-        pattren += f"(?<={field}).*?(?={separator})|"
+        pattren += f"(?<={field}=).*?(?={separator})|"
     return re.sub(pattren[:-1], redaction, message)
