@@ -1,0 +1,5 @@
+INFO:__main__:started
+INFO:__main__:end
+WARNING:__main__:warning
+ERROR:__main__:error
+CRITICAL:__main__:critical
