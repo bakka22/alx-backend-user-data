@@ -22,10 +22,12 @@ if auth_type == 'auth':
 elif auth_type == 'basic_auth':
     auth = BasicAuth()
 
+
 @app.before_request
 def before_req():
     """ handle events before every request """
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
+                      '/api/v1/forbidden/']
     if auth is None:
         return
     if auth.require_auth(request.path, excluded_paths):
@@ -34,21 +36,25 @@ def before_req():
         elif auth.current_user(request) is None:
             abort(403)
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
 
+
 @app.errorhandler(401)
 def unautherized(error) -> str:
     """ unautherized error """
     return jsonify({"error": "Unauthorized"}), 401
 
+
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """ unautherized error """
     return jsonify({"error": "forbidden"}), 403
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
