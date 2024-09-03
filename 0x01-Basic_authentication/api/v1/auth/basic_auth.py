@@ -55,7 +55,7 @@ class BasicAuth(Auth):
         credentials = dcd_b64_h.split(':')
         if len(credentials) < 2:
             return (None, None)
-        return (credentials[0], credentials[1])
+        return (credentials[0], ":".join(credentials[1:]))
 
     def user_object_from_credentials(self,
                                      user_email: str,
