@@ -125,7 +125,9 @@ class Base():
     def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
         """ Search all objects with matching attributes
         """
+        cls.load_from_file()
         s_class = cls.__name__
+
         def _search(obj):
             if len(attributes) == 0:
                 return True
@@ -133,5 +135,8 @@ class Base():
                 if (getattr(obj, k) != v):
                     return False
             return True
-        
-        return list(filter(_search, DATA[s_class].values()))
+
+        s_list = DATA[s_class].values()
+        if s_list is not None:
+            return list(filter(_search, s_list))
+        return None
