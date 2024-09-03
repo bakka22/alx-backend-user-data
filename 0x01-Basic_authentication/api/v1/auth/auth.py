@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ manage Authentication """
 from typing import List, TypeVar
+import re
 
 
 class Auth():
@@ -13,8 +14,15 @@ class Auth():
             return True
         if path[-1] != "/":
             path += "/"
-        if path in excluded_paths:
-            return False
+
+        for pa in excluded_paths:
+            if pa[-1] == "*":
+                pa = pa[:-1] + ".*"
+                match = re.match(pa, path)
+                if match:
+                    return False
+            elif path == pa:
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
