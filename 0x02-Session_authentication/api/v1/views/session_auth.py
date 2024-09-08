@@ -29,7 +29,9 @@ def session_auth():
     response.set_cookie(os.getenv("SESSION_NAME"), session_id)
     return response
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
 def log_out():
     """ log out user """
     from api.v1.app import auth
