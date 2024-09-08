@@ -2,6 +2,7 @@
 """ manage Authentication """
 from typing import List, TypeVar
 import re
+import os
 
 
 class Auth():
@@ -34,4 +35,13 @@ class Auth():
 
     def current_user(self, request=None) -> TypeVar('User'):
         """ return None """
+        return None
+
+    def session_cookie(self, request=None):
+        """ return a cookie value from a request """
+        if request is None:
+            return None
+        cookie_name = os.getenv("SESSION_NAME")
+        if cookie_name:
+           return request.cookies.get(cookie_name)
         return None
