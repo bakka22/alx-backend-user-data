@@ -29,12 +29,14 @@ if auth_type:
 def before_req():
     """ handle events before every request """
     excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
-                      '/api/v1/forbidden/']
+                      '/api/v1/forbidden/',
+                      '/api/v1/auth_session/login/']
     if auth is None:
         return
+    s_auth = auth.session_cookie(request)
     request.current_user = auth.current_user(request)
     if auth.require_auth(request.path, excluded_paths):
-        if auth.authorization_header(request) is None:
+        if auth.authorization_header(request) is None and s_auth is None:
             abort(401)
         elif request.current_user is None:
             abort(403)
