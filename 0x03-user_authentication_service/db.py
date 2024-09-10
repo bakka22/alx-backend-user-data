@@ -32,7 +32,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email, hashed_password):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """ add a user to database """
         session = self._session
         try:
@@ -44,7 +44,7 @@ class DB:
             new_user = None
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """ find user by filter """
         for key in kwargs.keys():
             try:
