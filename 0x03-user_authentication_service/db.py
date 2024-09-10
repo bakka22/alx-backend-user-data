@@ -5,7 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 from user import Base, User
 
@@ -33,7 +34,7 @@ class DB:
 
     def add_user(self, email, hashed_password):
         """ add a user to database """
-        session = self._session()
+        session = self._session
         new_user = User(email=email, hashed_password=hashed_password)
         session.add(new_user)
         return new_user
@@ -45,7 +46,7 @@ class DB:
                 getattr(User, key)
             except AttributeError:
                 raise InvalidRequestError
-        session = self._session()
+        session = self._session
         users = session.query(User).filter_by(**kwargs).all()
         if len(users) == 0:
             raise NoResultFound
