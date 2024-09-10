@@ -36,8 +36,8 @@ class DB:
         """ add a user to database """
         new_user = User(email=email, hashed_password=hashed_password,
                         session_id=session_id, reset_token=reset_token)
-        self._session.add(new_user)
-        self._session.commit()
+        self.__session.add(new_user)
+        self.__session.commit()
         return new_user
 
     def find_user_by(self, **kwargs):
@@ -48,7 +48,7 @@ class DB:
             except AttributeError:
                 raise InvalidRequestError
 
-        users = self._session.query(User).filter_by(**kwargs).all()
+        users = self.__session.query(User).filter_by(**kwargs).all()
         if len(users) == 0:
             raise NoResultFound
         return users[0]
