@@ -13,7 +13,7 @@ def _hash_password(password: str) -> bytes:
     return hashpw(bytes(password, "utf-8"), salt)
 
 
-def _generate_uuid():
+def _generate_uuid() -> str:
     """ generate uuid """
     return str(uuid4())
 
