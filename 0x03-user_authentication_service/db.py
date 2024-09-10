@@ -1,4 +1,3 @@
-#!/usr/bin/env pytho3
 """DB module
 """
 from sqlalchemy import create_engine
