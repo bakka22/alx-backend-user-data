@@ -56,3 +56,15 @@ class DB:
         if len(users) == 0:
             raise NoResultFound
         return users[0]
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ update a user in the database """
+        for key in kwargs:
+            try:
+                getattr(User, key)
+            except AttributeError:
+                raise ValueError
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            setattr(user, key, value)
+        self._session.commit()
