@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """DB module
 """
 from sqlalchemy import create_engine
@@ -33,10 +34,11 @@ class DB:
     def add_user(self, email, hashed_password,
                  session_id=None, reset_token=None):
         """ add a user to database """
+        session = self._session()
         new_user = User(email=email, hashed_password=hashed_password,
                         session_id=session_id, reset_token=reset_token)
-        self.__session.add(new_user)
-        self.__session.commit()
+        session.add(new_user)
+        session.commit()
         return new_user
 
     def find_user_by(self, **kwargs):
@@ -46,8 +48,8 @@ class DB:
                 getattr(User, key)
             except AttributeError:
                 raise InvalidRequestError
-
-        users = self.__session.query(User).filter_by(**kwargs).all()
+        session = self._session()
+        users = session.query(User).filter_by(**kwargs).all()
         if len(users) == 0:
             raise NoResultFound
         return users[0]
