@@ -48,7 +48,7 @@ def login():
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
 def logout():
     """ log a user out """
-    session_id = request.coockie.get("session_id")
+    session_id = request.coockies.get("session_id")
     if session_id is None:
         abort(403)
     user = AUTH.get_user_from_session_id(session_id)
