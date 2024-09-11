@@ -93,6 +93,8 @@ def update_password():
     email = data.get("email")
     reset_token = data.get("reset_token")
     new_password = data.get("new_password")
+    if email is None or reset_token is None or new_password is None:
+        abort(403)
     try:
         AUTH.update_password(reset_token, new_password)
     except ValueError:
