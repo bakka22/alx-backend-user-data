@@ -87,11 +87,12 @@ def get_reset_password_token():
 @app.route("/reset_password", methods=["PUT"], strict_slashes=False)
 def update_password():
     """ update a user's password """
-    email = request.form.get("email")
-    reset_token = request.form.get("reset_token")
-    new_password = request.form.get("new_password")
-    if email is None or reste_token is None or new_password is None:
+    data = request.get_json()
+    if data is None:
         abort(403)
+    email = data.get("email")
+    reset_token = data.get("reset_token")
+    new_password = data.get("new_password")
     try:
         AUTH.update_password(reset_token, new_password)
     except ValueError:
