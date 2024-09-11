@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ flask app module """
 from flask import Flask, jsonify, request, make_response, abort
+from flask import redirect, url_for
 from auth import Auth
 
 
@@ -30,7 +31,7 @@ def users():
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login():
-    """ create a new user """
+    """ log a user in """
     email = request.form.get("email")
     password = request.form.get("password")
     if email is None or password is None:
@@ -42,6 +43,19 @@ def login():
     response = make_response(jsonify(payload))
     response.set_cookie("session_id", session_id)
     return response
+
+
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout():
+    """ log a user out """
+    session_id = request.coockie.get("session_id")
+    if session_id is None:
+        abort(403)
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect(url_for('home'))
 
 
 if __name__ == "__main__":
